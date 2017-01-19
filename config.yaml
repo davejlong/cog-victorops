@@ -1,0 +1,15 @@
+---
+cog_bundle_version: 4
+name: victorops
+description: Commands for interacting with VictorOps
+version: 0.1.4
+docker:
+  image: cagedata/victorops-cog
+  tag: 0.1.4
+commands:
+  oncall:
+    executable: "/home/bundle/cog-command"
+    description: Find out who is currently on call
+    arguments: "[team]"
+    rules:
+    - allow

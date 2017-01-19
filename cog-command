@@ -1,0 +1,27 @@
+#!/usr/bin/env ruby
+
+# Make sure we're in the top-level directory for the command
+# since so many paths are relative.
+Dir.chdir(File.dirname(__FILE__))
+
+# Add the lib directory to the load path
+libdir = File.join(File.dirname(__FILE__), 'lib')
+$LOAD_PATH.unshift(libdir) unless $LOAD_PATH.include?(libdir)
+
+# Set load path for gems installed with "bundle install --standalone" or
+# fallback to good 'ol bundler
+begin
+  require_relative 'bundle/bundler/setup'
+rescue LoadError
+  require 'bundler'
+  Bundler.setup
+end
+
+require 'cog'
+
+# Catch generic AWS exceptions and return just the message.
+# Cog.error_handler.add(/Aws::.*/) do |ex, cmd|
+#   Cog.return_error("#{cmd.name} error: #{ex.message}.")
+# end
+
+Cog.bundle('victor_ops')
