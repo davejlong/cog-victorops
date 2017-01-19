@@ -21,6 +21,10 @@ task release: [:push] do |_t|
   sh 'git', 'push', 'origin', BUNDLE_VERSION
 end
 
+task install: [:push] do |_t|
+  sh 'cogctl', 'bundle', 'install', 'config.yaml', '--enable', '--relay-groups', 'default', '--force'
+end
+
 task :readme do |t|
   name             = BUNDLE_CONFIG['name']
   description      = BUNDLE_CONFIG['description']

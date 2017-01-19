@@ -14,9 +14,9 @@ COPY Gemfile Gemfile.lock /home/bundle/
 
 # Install Git and packages to build libgit2, run Bundler, and uninstall
 # packages recover space
-RUN apk -U add ruby-bundler ruby-dev make cmake g++ libssh2-dev && \
+RUN apk -U add ruby-bundler ruby-dev make cmake g++ libssh2-dev git && \
     su bundle -c 'bundle install --standalone --without="development test"' && \
-    apk del ruby-bundler ruby-dev make cmake g++ libssh2-dev && \
+    apk del ruby-bundler ruby-dev make cmake g++ libssh2-dev git && \
     rm -f /var/cache/apk/*
 
 # Copy rest of code

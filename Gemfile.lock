@@ -1,8 +1,14 @@
-GEM
-  remote: https://rubygems.org/
+GIT
+  remote: git://github.com/davejlong/cog-rb.git
+  revision: 65c81415087f29d53acb68f08e4db644c92e1dc1
+  branch: camelize-bundles
   specs:
     cog-rb (0.4.4)
       rake (~> 11.2)
+
+GEM
+  remote: https://rubygems.org/
+  specs:
     diff-lcs (1.3)
     rake (11.3.0)
     rspec (3.5.0)
@@ -24,7 +30,7 @@ PLATFORMS
 
 DEPENDENCIES
   bundler
-  cog-rb (~> 0.4.4)
+  cog-rb!
   rspec (~> 3.0)
 
 BUNDLED WITH

@@ -8,5 +8,8 @@ module CogCmd
         response.content = 'Dave Long'
       end
     end
+
+    # pay no attention to the man behind the curtain (@imbriaco)
+    class Oncall < OnCall; end
   end
 end
