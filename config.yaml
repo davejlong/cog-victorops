@@ -2,10 +2,10 @@
 cog_bundle_version: 4
 name: victorops
 description: Commands for interacting with VictorOps
-version: 0.3.6
+version: 0.3.7
 docker:
   image: cagedata/victorops-cog
-  tag: 0.3.6
+  tag: 0.3.7
 commands:
   ack:
     executable: "/home/bundle/cog-command"
