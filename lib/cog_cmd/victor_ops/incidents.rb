@@ -1,23 +1,21 @@
 #!/usr/bin/env ruby
 
 require 'cog/command'
-require 'net/http'
 require 'json'
+
+require_relative 'helpers'
 
 module CogCmd
   module VictorOps
     class Incidents < Cog::Command
-      API = 'api.victorops.com'.freeze
-      PORT = 443
-      PATH = '/api-public/v1/incidents'.freeze
+      include Helpers
+
+      PATH = "#{BASE_PATH}/incidents".freeze
       TEMPLATE = 'incidents'.freeze
       DEFAULT_PHASES = 'acked,unacked'.freeze
 
       def run_command
-        http = Net::HTTP.new API, PORT
-        http.use_ssl = true
-
-        resp = http.get(PATH, headers)
+        resp = http_client.get(PATH, headers)
         if resp.code.to_i == 200
           response.content = parse_body(resp.body)
           response.template = TEMPLATE
@@ -25,15 +23,6 @@ module CogCmd
           response.content = "Failed to get incidents: \`#{resp.body}\`"
         end
         response
-      end
-
-      def headers
-        {
-          'Content-Type' => 'application/json',
-          'Accept' => 'application/json',
-          'X-VO-Api-Id' => ENV['VICTOROPS_API_ID'],
-          'X-VO-Api-Key' => ENV['VICTOROPS_API_KEY']
-        }
       end
 
       def parse_body(body)
