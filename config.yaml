@@ -2,14 +2,58 @@
 cog_bundle_version: 4
 name: victorops
 description: Commands for interacting with VictorOps
-version: 0.2.3
+version: 0.3.6
 docker:
   image: cagedata/victorops-cog
-  tag: 0.2.3
+  tag: 0.3.6
 commands:
   ack:
     executable: "/home/bundle/cog-command"
     description: Ack an open incident
     arguments: "[incident]"
     rules:
-    - allow
+      - allow
+    examples: |
+      victorops:ack 2170 "Looking into the issue"
+    notes: |
+      Acks an open incident.
+
+      Assumes that the username of the Cog user is the same as their
+      VictorOps username.
+
+      Requires API keys to be set:
+
+          VICTOROPS_API_ID
+          VICTOROPS_API_KEY
+  incidents:
+    executable: "/home/bundle/cog-command"
+    description: Get a list of open incidents
+    rules:
+      - allow
+    examples: |
+      Get all open incidents (triggered and acknowledged):
+
+        victorops:incidents
+
+      Get only unacked incidents:
+
+        victorops:incidents --phase unacked
+
+      Get acked and resolved incidents:
+
+        victorops:incidents --phase acked,resolved
+    options:
+      phase:
+        type: string
+        required: false
+        short_flag: p
+        description: |
+          Comma-delimited list of phases to query for. Valid options are `resolved`, `acked`, `unacked`. Defaults to `acked`, `unacked`
+templates:
+  incidents:
+    body: |
+      | ID      | Phase   | Message |
+      | ------- | ------- | ------- |
+      ~each var=$results~
+      | ~$item.id~ | ~$item.phase~ | ~$item.message~ |
+      ~end~
