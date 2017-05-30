@@ -22,7 +22,7 @@ task release: [:push] do |_t|
 end
 
 task install: [:push] do |_t|
-  sh 'cogctl', 'bundle', 'install', 'config.yaml', '--enable', '--relay-groups', 'default', '--force'
+  sh 'cogctl', 'bundle', 'install', 'config.yaml', '--enable', '--relay-group', 'default', '--force'
 end
 
 task :readme do |t|

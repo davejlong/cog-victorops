@@ -2,14 +2,14 @@
 cog_bundle_version: 4
 name: victorops
 description: Commands for interacting with VictorOps
-version: 0.1.9
+version: 0.2.3
 docker:
   image: cagedata/victorops-cog
-  tag: 0.1.9
+  tag: 0.2.3
 commands:
-  oncall:
+  ack:
     executable: "/home/bundle/cog-command"
-    description: Find out who is currently on call
-    arguments: "[team]"
+    description: Ack an open incident
+    arguments: "[incident]"
     rules:
     - allow
