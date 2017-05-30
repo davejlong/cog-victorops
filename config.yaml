@@ -2,10 +2,10 @@
 cog_bundle_version: 4
 name: victorops
 description: Commands for interacting with VictorOps
-version: 0.3.7
+version: 0.3.8
 docker:
   image: cagedata/victorops-cog
-  tag: 0.3.7
+  tag: 0.3.8
 commands:
   ack:
     executable: "/home/bundle/cog-command"
@@ -33,15 +33,15 @@ commands:
     examples: |
       Get all open incidents (triggered and acknowledged):
 
-        victorops:incidents
+          victorops:incidents
 
       Get only unacked incidents:
 
-        victorops:incidents --phase unacked
+          victorops:incidents --phase unacked
 
       Get acked and resolved incidents:
 
-        victorops:incidents --phase acked,resolved
+          victorops:incidents --phase acked,resolved
     options:
       phase:
         type: string

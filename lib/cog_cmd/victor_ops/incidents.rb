@@ -11,7 +11,7 @@ module CogCmd
       PORT = 443
       PATH = '/api-public/v1/incidents'.freeze
       TEMPLATE = 'incidents'.freeze
-      DEFAULT_PHASES = 'acked, unacked'.freeze
+      DEFAULT_PHASES = 'acked,unacked'.freeze
 
       def run_command
         http = Net::HTTP.new API, PORT
@@ -52,7 +52,7 @@ module CogCmd
           }
         end.select do |incident|
           phases.any? do |phase|
-            phase.upcase == incident[:phase]
+            phase.strip.upcase == incident[:phase]
           end
         end
       end
