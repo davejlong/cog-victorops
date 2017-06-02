@@ -1,4 +1,5 @@
 #!/usr/bin/env ruby
+# frozen_string_literal: true
 
 require 'cog/command'
 require 'json'
@@ -7,12 +8,15 @@ require_relative 'helpers'
 
 module CogCmd
   module VictorOps
+    ##
+    ## Look up information about incidents
+    ##
     class Incidents < Cog::Command
       include Helpers
 
-      PATH = "#{BASE_PATH}/incidents".freeze
-      TEMPLATE = 'incidents'.freeze
-      DEFAULT_PHASES = 'acked,unacked'.freeze
+      PATH = "#{BASE_PATH}/incidents"
+      TEMPLATE = 'incidents'
+      DEFAULT_PHASES = 'acked,unacked'
 
       def run_command
         resp = http_client.get(PATH, headers)
@@ -26,20 +30,7 @@ module CogCmd
       end
 
       def parse_body(body)
-        phases = if ENV['COG_OPT_PHASE'].to_s.length.positive?
-          ENV['COG_OPT_PHASE']
-        else
-          DEFAULT_PHASES
-        end.split(',')
-
-        body = JSON.parse body
-        body['incidents'].map do |incident|
-          {
-            id: incident['incidentNumber'],
-            phase: incident['currentPhase'],
-            message: message_for(incident)
-          }
-        end.select do |incident|
+        JSON.parse(body)['incidents'].map(&format_incident).select do |incident|
           phases.any? do |phase|
             phase.strip.upcase == incident[:phase]
           end
@@ -52,6 +43,22 @@ module CogCmd
         else
           incident['entityId']
         end
+      end
+
+      def format_incident(incident)
+        {
+          id: incident['incidentNumber'],
+          phase: incident['currentPhase'],
+          message: message_for(incident)
+        }
+      end
+
+      def phases
+        if ENV['COG_OPT_PHASE'].to_s.length.positive?
+          ENV['COG_OPT_PHASE']
+        else
+          DEFAULT_PHASES
+        end.split(',')
       end
     end
   end

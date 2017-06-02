@@ -1,4 +1,5 @@
 #!/usr/bin/env ruby
+# frozen_string_literal: true
 
 require 'cog/command'
 require 'json'
@@ -7,17 +8,19 @@ require_relative 'helpers'
 
 module CogCmd
   module VictorOps
+    ##
+    ## Ack an open incident.
+    ##
     class Ack < Cog::Command
       include Helpers
-      PATH = "#{BASE_PATH}/incidents/ack".freeze
+      PATH = "#{BASE_PATH}/incidents/ack"
 
       def run_command
         resp = http_client.patch(PATH, body.to_json, headers)
-        if resp.code.to_i == 200
-          response.content = "Acked #{ENV['COG_ARGV_0']} by #{ENV['COG_USERNAME']}"
-          response.content += " with '#{message}'" if message.to_s.length.positive?
+        response.content = if resp.code.to_i == 200
+          positive_response
         else
-          response.content = "Failed to ack #{ENV['COG_ARGV_0']}: \`#{resp.body}\`"
+          negative_response
         end
       end
 
@@ -30,9 +33,25 @@ module CogCmd
       def body
         {
           userName: ENV['COG_USERNAME'],
-          incidentNames: [ENV['COG_ARGV_0']],
+          incidentNames: [incident_id],
           message: message
         }
+      end
+
+      private
+
+      def incident_id
+        ENV['COG_ARGV_0']
+      end
+
+      def positive_response
+        response = "Acked #{incident_id} by #{cog_username}"
+        response += "with \`#{message}\`" if message.to_s.length.positive?
+        response
+      end
+
+      def negative_response
+        "Failed to ack #{incident_id}: \`#{resp.body}\`"
       end
     end
   end

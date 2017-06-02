@@ -8,6 +8,12 @@ author: Dave Long <dlong@cagedata.com>
 docker:
   image: cagedata/victorops-cog
   tag: 0.4.0
+config:
+  env:
+    - var: VICTOROPS_API_ID
+      description: API ID for VictorOps
+    - var: VICTOROPS_API_KEY
+      description: API Key for VictorOps
 commands:
   ack:
     executable: "/home/bundle/cog-command"

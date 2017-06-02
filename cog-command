@@ -1,4 +1,5 @@
 #!/usr/bin/env ruby
+# frozen_string_literal: true
 
 # Make sure we're in the top-level directory for the command
 # since so many paths are relative.
