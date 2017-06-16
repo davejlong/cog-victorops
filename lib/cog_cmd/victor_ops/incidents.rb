@@ -30,7 +30,9 @@ module CogCmd
       end
 
       def parse_body(body)
-        JSON.parse(body)['incidents'].map(&format_incident).select do |incident|
+        JSON.parse(body)['incidents']
+          .map { |incident| format_incident(incident) }
+          .select do |incident|
           phases.any? do |phase|
             phase.strip.upcase == incident[:phase]
           end

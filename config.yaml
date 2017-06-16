@@ -2,12 +2,12 @@
 cog_bundle_version: 4
 name: victorops
 description: Commands for interacting with VictorOps
-version: 0.4.0
+version: 0.5.2
 homepage: https://github.com/davejlong/cog-victorops
 author: Dave Long <dlong@cagedata.com>
 docker:
   image: cagedata/victorops-cog
-  tag: 0.4.0
+  tag: 0.5.2
 config:
   env:
     - var: VICTOROPS_API_ID
@@ -25,6 +25,24 @@ commands:
       victorops:ack 2170 "Looking into the issue"
     notes: |
       Acks an open incident.
+
+      Assumes that the username of the Cog user is the same as their
+      VictorOps username.
+
+      Requires API keys to be set:
+
+          VICTOROPS_API_ID
+          VICTOROPS_API_KEY
+  resolve:
+    executable: "/home/bundle/cog-command"
+    description: Resolve an open incident
+    arguments: "[incident]"
+    rules:
+      - allow
+    examples: |
+      victorops:resolve 2170 "All set"
+    notes: |
+      Resolved an open incident.
 
       Assumes that the username of the Cog user is the same as their
       VictorOps username.

@@ -1,4 +1,6 @@
-# victorops - Commands for interacting with VictorOps (0.4.0)
+# victorops - Commands for interacting with VictorOps (0.5.2)
+
+
 
 ## Installation
 
@@ -26,6 +28,9 @@ about each command see the `help` builtin command: `help victorops:<command_name
 
 * `ack`
   > Ack an open incident
+
+* `resolve`
+  > Resolve an open incident
 
 * `incidents`
   > Get a list of open incidents
