@@ -32,7 +32,7 @@ module CogCmd
 
       def body
         {
-          userName: ENV['COG_USERNAME'],
+          userName: cog_username,
           incidentNames: [incident_id],
           message: message
         }
